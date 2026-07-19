@@ -21,6 +21,19 @@ const PaginaBiblia = {
     'Judas':'jude','Apocalipse':'revelation'
   },
 
+  CAPITULOS: {
+    'Gênesis':50,'Êxodo':40,'Levítico':27,'Números':36,'Deuteronômio':34,'Josué':24,'Juízes':21,'Rute':4,
+    '1 Samuel':31,'2 Samuel':24,'1 Reis':22,'2 Reis':25,'1 Crônicas':29,'2 Crônicas':36,'Esdras':10,'Neemias':13,
+    'Tobias':14,'Judite':16,'Ester':10,'1 Macabeus':16,'2 Macabeus':15,'Jó':42,'Salmos':150,'Provérbios':31,
+    'Eclesiastes':12,'Cântico dos Cânticos':8,'Sabedoria':19,'Eclesiástico (Ben Sira)':51,'Isaías':66,
+    'Jeremias':52,'Lamentações':5,'Baruc':6,'Ezequiel':48,'Daniel':12,'Oseias':14,'Joel':3,'Amós':9,
+    'Abdias':1,'Jonas':4,'Miqueias':7,'Naum':3,'Habacuc':3,'Sofonias':3,'Ageu':2,'Zacarias':14,'Malaquias':4,
+    'Mateus':28,'Marcos':16,'Lucas':24,'João':21,'Atos dos Apóstolos':28,'Romanos':16,'1 Coríntios':16,
+    '2 Coríntios':13,'Gálatas':6,'Efésios':6,'Filipenses':4,'Colossenses':4,'1 Tessalonicenses':5,
+    '2 Tessalonicenses':3,'1 Timóteo':6,'2 Timóteo':4,'Tito':3,'Filêmon':1,'Hebreus':13,'Tiago':5,
+    '1 Pedro':5,'2 Pedro':3,'1 João':5,'2 João':1,'3 João':1,'Judas':1,'Apocalipse':22
+  },
+
   async load(){
     if(this._dados) return this._dados;
     this._dados = await fetch('data/bibliaAveMaria.json').then(r => r.json());
@@ -30,11 +43,34 @@ const PaginaBiblia = {
   async render(el, param){
     const dados = await this.load();
     if(param){
-      const [livro, cap] = param.split('::');
-      this.renderLeitura(el, dados, livro, Number(cap) || 1);
+      if(param.includes('::')){
+        const [livro, cap] = param.split('::');
+        this.renderLeitura(el, dados, livro, Number(cap) || 1);
+      } else {
+        this.renderCapitulos(el, param);
+      }
       return;
     }
     this.renderLista(el, dados);
+  },
+
+  renderCapitulos(el, livro){
+    Header.setTitle(livro, () => Router.navigate('biblia'));
+    const total = this.CAPITULOS[livro];
+    if(!total){
+      el.innerHTML = `<div class="empty-state"><span class="material-icons-round">error_outline</span><div>Livro não encontrado</div></div>`;
+      return;
+    }
+    const nums = Array.from({ length: total }, (_, i) => i + 1);
+    el.innerHTML = `
+      <div class="section-title">${livro} · ${total} ${total === 1 ? 'capítulo' : 'capítulos'}</div>
+      <div class="chapter-grid">
+        ${nums.map(n => `<button class="chapter-chip" data-cap="${n}">${n}</button>`).join('')}
+      </div>
+    `;
+    el.querySelectorAll('.chapter-chip').forEach(btn => {
+      btn.addEventListener('click', () => Router.navigate('biblia', `${livro}::${btn.dataset.cap}`));
+    });
   },
 
   renderLista(el, dados){
@@ -105,11 +141,14 @@ const PaginaBiblia = {
         const matchLivros = livros.filter(l => l.toLowerCase().includes(q));
         const matchHist = historico.filter(h => (h.texto||'').toLowerCase().includes(q) || h.titulo.toLowerCase().includes(q));
         listaEl.innerHTML = `
-          ${matchLivros.map(l => `<div class="list-item" data-livro="${l}"><div class="titulo">${l}</div><span class="material-icons-round">chevron_right</span></div>`).join('')}
-          ${matchHist.map(h => `<div class="list-item" data-livro="${h.livro}" data-cap="${h.capitulo}"><div><div class="titulo">${h.titulo}</div><div class="meta">do histórico</div></div><span class="material-icons-round">chevron_right</span></div>`).join('')}
+          ${matchLivros.map(l => `<div class="list-item" data-livro="${l}" data-modo="livro"><div class="titulo">${l}</div><span class="material-icons-round">chevron_right</span></div>`).join('')}
+          ${matchHist.map(h => `<div class="list-item" data-livro="${h.livro}" data-cap="${h.capitulo}" data-modo="cap"><div><div class="titulo">${h.titulo}</div><div class="meta">do histórico</div></div><span class="material-icons-round">chevron_right</span></div>`).join('')}
         `;
         listaEl.querySelectorAll('.list-item').forEach(item => {
-          item.addEventListener('click', () => Router.navigate('biblia', `${item.dataset.livro}::${item.dataset.cap||1}`));
+          item.addEventListener('click', () => {
+            if(item.dataset.modo === 'livro') Router.navigate('biblia', item.dataset.livro);
+            else Router.navigate('biblia', `${item.dataset.livro}::${item.dataset.cap||1}`);
+          });
         });
         return;
       }
@@ -121,7 +160,7 @@ const PaginaBiblia = {
         </div>
       `).join('');
       listaEl.querySelectorAll('.list-item').forEach(item => {
-        item.addEventListener('click', () => Router.navigate('biblia', `${item.dataset.livro}::1`));
+        item.addEventListener('click', () => Router.navigate('biblia', item.dataset.livro));
       });
     }
   },

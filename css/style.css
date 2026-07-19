@@ -290,6 +290,28 @@ button{font-family:inherit;}
 }
 .toast.show{opacity:1; transform:translateY(0);}
 
+.chapter-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+  padding:8px 20px 24px;
+}
+.chapter-chip{
+  aspect-ratio:1;
+  border-radius:14px;
+  border:1px solid var(--md-outline-variant);
+  background:var(--md-surface-container);
+  color:var(--md-on-surface);
+  font-size:15px;
+  font-weight:500;
+  cursor:pointer;
+  transition:background .15s var(--ease), transform .15s var(--ease);
+}
+.chapter-chip:active{
+  background:var(--md-secondary-container);
+  transform:scale(0.94);
+}
+
 @media (min-width:560px){
   #app{border-radius:24px; margin-top:16px; margin-bottom:16px; min-height:calc(100vh - 32px);}
 }
