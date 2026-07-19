@@ -1,0 +1,13 @@
+{
+  "aviso": "O texto integral dos 1752 cânones é publicado oficialmente pela Santa Sé. Este índice organiza os sete livros do Código e leva ao PDF oficial completo em português.",
+  "urlCompleto": "https://www.vatican.va/archive/cod-iuris-canonici/portuguese/codex-iuris-canonici_po.pdf",
+  "livros": [
+    { "id":"livro1", "titulo":"Livro I — Normas Gerais", "canones":"cân. 1-203", "resumo":"Leis eclesiásticas, costume, decretos gerais, atos administrativos, pessoas físicas e jurídicas, atos jurídicos, prescrição." },
+    { "id":"livro2", "titulo":"Livro II — Povo de Deus", "canones":"cân. 204-746", "resumo":"Direitos e deveres de todos os fiéis, hierarquia da Igreja, institutos de vida consagrada." },
+    { "id":"livro3", "titulo":"Livro III — Função de Ensinar da Igreja", "canones":"cân. 747-833", "resumo":"Pregação, catequese, missão, educação católica, meios de comunicação social, profissão de fé." },
+    { "id":"livro4", "titulo":"Livro IV — Função de Santificar da Igreja", "canones":"cân. 834-1253", "resumo":"Os sacramentos, outros atos de culto divino e os lugares e tempos sagrados." },
+    { "id":"livro5", "titulo":"Livro V — Bens Temporais da Igreja", "canones":"cân. 1254-1310", "resumo":"Aquisição, administração e alienação de bens eclesiásticos." },
+    { "id":"livro6", "titulo":"Livro VI — Sanções na Igreja", "canones":"cân. 1311-1399", "resumo":"Delitos e penas eclesiásticas, censuras e penas expiatórias." },
+    { "id":"livro7", "titulo":"Livro VII — Processos", "canones":"cân. 1400-1752", "resumo":"Julgamentos, processos matrimoniais e penais, recursos administrativos." }
+  ]
+}

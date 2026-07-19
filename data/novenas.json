@@ -1,0 +1,59 @@
+{
+  "novenas": [
+    {
+      "id": "sao-miguel",
+      "titulo": "Novena a São Miguel Arcanjo",
+      "descricao": "Nove dias pedindo proteção e coragem ao arcanjo guerreiro.",
+      "disponivel": true,
+      "dias": [
+        "Dia 1: Peça a São Miguel que o defenda das tentações do dia. Reze o Pai Nosso, a Ave Maria e a oração a São Miguel Arcanjo.",
+        "Dia 2: Agradeça pela proteção recebida até aqui na vida. Reze o Pai Nosso, a Ave Maria e a oração a São Miguel Arcanjo.",
+        "Dia 3: Peça coragem para enfrentar uma dificuldade concreta desta semana. Reze o Pai Nosso, a Ave Maria e a oração a São Miguel Arcanjo.",
+        "Dia 4: Ore por alguém que está passando por uma provação espiritual. Reze o Pai Nosso, a Ave Maria e a oração a São Miguel Arcanjo.",
+        "Dia 5: Peça discernimento para reconhecer o bem e evitar o mal nas pequenas escolhas do dia. Reze o Pai Nosso, a Ave Maria e a oração a São Miguel Arcanjo.",
+        "Dia 6: Ore pela paz em sua família. Reze o Pai Nosso, a Ave Maria e a oração a São Miguel Arcanjo.",
+        "Dia 7: Peça força para perdoar alguém que o feriu. Reze o Pai Nosso, a Ave Maria e a oração a São Miguel Arcanjo.",
+        "Dia 8: Agradeça pela fé recebida e peça que ela cresça. Reze o Pai Nosso, a Ave Maria e a oração a São Miguel Arcanjo.",
+        "Dia 9: Entregue a São Miguel a sua intenção especial desta novena. Reze o Pai Nosso, a Ave Maria e a oração a São Miguel Arcanjo."
+      ]
+    },
+    {
+      "id": "natal",
+      "titulo": "Novena de Natal",
+      "descricao": "Nove dias de preparação do coração para o Natal do Senhor.",
+      "disponivel": true,
+      "dias": [
+        "Dia 1: Reflita sobre a espera de Israel pelo Messias e sobre suas próprias esperas. Reze o Pai Nosso, a Ave Maria e o Glória.",
+        "Dia 2: Pense em Maria acolhendo o anúncio do anjo com um 'sim' confiante. Reze o Pai Nosso, a Ave Maria e o Glória.",
+        "Dia 3: Medite sobre José, homem justo que confiou no plano de Deus mesmo sem entender tudo. Reze o Pai Nosso, a Ave Maria e o Glória.",
+        "Dia 4: Pense na viagem a Belém e nas portas que se fecharam para a Sagrada Família. Reze o Pai Nosso, a Ave Maria e o Glória.",
+        "Dia 5: Reflita sobre a simplicidade do presépio e a grandeza escondida nele. Reze o Pai Nosso, a Ave Maria e o Glória.",
+        "Dia 6: Pense nos pastores, os primeiros a receber a notícia do nascimento do Salvador. Reze o Pai Nosso, a Ave Maria e o Glória.",
+        "Dia 7: Medite sobre a luz que vence a escuridão, como a estrela guiou os magos. Reze o Pai Nosso, a Ave Maria e o Glória.",
+        "Dia 8: Pense nos dons trazidos pelos magos e no que você deseja oferecer a Deus. Reze o Pai Nosso, a Ave Maria e o Glória.",
+        "Dia 9: Vigília de Natal: agradeça pelo Deus que se fez menino por amor. Reze o Pai Nosso, a Ave Maria e o Glória."
+      ]
+    },
+    {
+      "id": "sagrado-coracao",
+      "titulo": "Novena ao Sagrado Coração de Jesus",
+      "descricao": "Nove dias de confiança no amor misericordioso de Jesus.",
+      "disponivel": false,
+      "dias": []
+    },
+    {
+      "id": "espirito-santo",
+      "titulo": "Novena ao Espírito Santo",
+      "descricao": "A novena mais antiga da Igreja, entre a Ascensão e Pentecostes.",
+      "disponivel": false,
+      "dias": []
+    },
+    {
+      "id": "nossa-senhora-aparecida",
+      "titulo": "Novena a Nossa Senhora Aparecida",
+      "descricao": "Nove dias em preparação à festa da padroeira do Brasil.",
+      "disponivel": false,
+      "dias": []
+    }
+  ]
+}
