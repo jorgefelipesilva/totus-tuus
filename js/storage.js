@@ -3,7 +3,8 @@ const Storage = (() => {
     FAV: 'tt_favoritos',
     HIST: 'tt_historico',
     PREFS: 'tt_prefs',
-    LEITURA: 'tt_continuar_leitura'
+    LEITURA: 'tt_continuar_leitura',
+    LIDOS: 'tt_capitulos_lidos'
   };
 
   function read(key, fallback){
@@ -60,6 +61,21 @@ const Storage = (() => {
     },
     getContinuarLeitura(){
       return read(KEYS.LEITURA, null);
+    },
+    marcarCapituloLido(livro, capitulo){
+      const lidos = read(KEYS.LIDOS, {});
+      lidos[livro] = lidos[livro] || [];
+      if(!lidos[livro].includes(capitulo)){
+        lidos[livro].push(capitulo);
+        write(KEYS.LIDOS, lidos);
+      }
+    },
+    getCapitulosLidos(){
+      return read(KEYS.LIDOS, {});
+    },
+    contarLidos(livro){
+      const lidos = read(KEYS.LIDOS, {});
+      return (lidos[livro] || []).length;
     }
   };
 })();

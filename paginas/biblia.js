@@ -62,15 +62,64 @@ const PaginaBiblia = {
       return;
     }
     const nums = Array.from({ length: total }, (_, i) => i + 1);
+    const lidos = Storage.getCapitulosLidos()[livro] || [];
     el.innerHTML = `
-      <div class="section-title">${livro} · ${total} ${total === 1 ? 'capítulo' : 'capítulos'}</div>
+      <div class="section-title">${livro} · ${lidos.length}/${total} ${total === 1 ? 'capítulo lido' : 'capítulos lidos'}</div>
       <div class="chapter-grid">
-        ${nums.map(n => `<button class="chapter-chip" data-cap="${n}">${n}</button>`).join('')}
+        ${nums.map(n => `<button class="chapter-chip ${lidos.includes(n) ? 'lido' : ''}" data-cap="${n}">${n}</button>`).join('')}
       </div>
     `;
     el.querySelectorAll('.chapter-chip').forEach(btn => {
       btn.addEventListener('click', () => Router.navigate('biblia', `${livro}::${btn.dataset.cap}`));
     });
+  },
+
+  calcularProgresso(dados){
+    const lidos = Storage.getCapitulosLidos();
+    let totalLidos = 0, totalGeral = 0;
+    const porTestamento = {};
+    ['antigoTestamento','novoTestamento'].forEach(t => {
+      let tLidos = 0, tTotal = 0;
+      dados.livros[t].forEach(livro => {
+        const cap = this.CAPITULOS[livro] || 0;
+        const lidosLivro = (lidos[livro] || []).length;
+        tTotal += cap;
+        tLidos += Math.min(lidosLivro, cap);
+      });
+      porTestamento[t] = { lidos: tLidos, total: tTotal, pct: tTotal ? Math.round((tLidos/tTotal)*100) : 0 };
+      totalLidos += tLidos;
+      totalGeral += tTotal;
+    });
+    return {
+      lidos: totalLidos, total: totalGeral,
+      pct: totalGeral ? Math.round((totalLidos/totalGeral)*100) : 0,
+      porTestamento
+    };
+  },
+
+  renderProgresso(dados){
+    const p = this.calcularProgresso(dados);
+    const raio = 32, circ = 2*Math.PI*raio;
+    const offset = circ - (p.pct/100)*circ;
+    return `
+      <div class="detail-panel" style="display:flex; align-items:center; gap:18px;">
+        <svg width="76" height="76" viewBox="0 0 76 76" style="flex-shrink:0;">
+          <circle cx="38" cy="38" r="${raio}" fill="none" stroke="var(--md-surface-container-high)" stroke-width="8"/>
+          <circle cx="38" cy="38" r="${raio}" fill="none" stroke="var(--md-primary)" stroke-width="8"
+            stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${offset}"
+            transform="rotate(-90 38 38)"/>
+          <text x="38" y="43" text-anchor="middle" font-size="18" font-weight="700" fill="var(--md-on-surface)">${p.pct}%</text>
+        </svg>
+        <div style="flex:1;">
+          <div class="titulo" style="font-size:15px; margin-bottom:6px;">Bíblia lida</div>
+          <div class="meta" style="margin-bottom:10px;">${p.lidos} de ${p.total} capítulos</div>
+          <div class="meta" style="margin-bottom:2px;">Antigo Testamento · ${p.porTestamento.antigoTestamento.pct}%</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${p.porTestamento.antigoTestamento.pct}%"></div></div>
+          <div class="meta" style="margin:8px 0 2px;">Novo Testamento · ${p.porTestamento.novoTestamento.pct}%</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${p.porTestamento.novoTestamento.pct}%"></div></div>
+        </div>
+      </div>
+    `;
   },
 
   renderLista(el, dados){
@@ -80,6 +129,7 @@ const PaginaBiblia = {
 
     el.innerHTML = `
       <div id="bi-search"></div>
+      ${this.renderProgresso(dados)}
       ${continuar ? `
         <div class="detail-panel" id="bi-continuar" style="cursor:pointer;">
           <div class="meta">Continuar leitura</div>
@@ -249,6 +299,7 @@ const PaginaBiblia = {
 
       Storage.addHistorico('biblia', { id:`${livro}_${cap}`, titulo:`${livro} ${cap}`, livro, capitulo:cap, texto: fullText.slice(0,120) });
       Storage.setContinuarLeitura({ livro, capitulo: cap });
+      Storage.marcarCapituloLido(livro, cap);
 
       carregando = false;
       loadMoreEl.innerHTML = `<button class="action-btn" id="bi-proximo"><span class="material-icons-round">expand_more</span> Próximo capítulo</button>`;
